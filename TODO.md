@@ -13,4 +13,13 @@
    - unique id
    - person's name
    - point entry
-   - timestamp 
+   - timestamp
+
+# Implement the registeration system
+
+# Implement the points system
+  - auto input the timestamps when new points are entred
+  - get the name and the points and send to the backend
+
+# Implement the visualization 
+  - use the time stamps to filter by last week, last month, all time

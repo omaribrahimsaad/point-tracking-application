@@ -9,6 +9,7 @@ POINTS_SCHEMA = """
                 (id INTEGER PRIMARY KEY,
                 person_name TEXT,
                 points INTEGER,
+                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY(person_name) REFERENCES Person(name))"""
 database_path = 'person_database.sql'
 
@@ -22,6 +23,7 @@ class PersonManager:
       cursor = conn.cursor()
       cursor.execute("INSERT INTO Person (name) VALUES (?)", (name,))
       conn.commit()
+      print(f"Added new person: {name}")
 
   def GetPersonNames(self) -> list[str]:
     with sqlite3.connect(database_path) as conn:
@@ -45,6 +47,7 @@ class PersonManager:
       cursor = conn.cursor()
       cursor.execute("INSERT INTO Points (person_name, points) VALUES (?, ?)", (person_name, points))
       conn.commit()
+      print(f"Added {points} points to {person_name}")
   
   def ConnectToDatabase(self):
     # Connect to an existing database (or create a new one if it doesn't exist)
