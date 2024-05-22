@@ -11,29 +11,44 @@
 </head>
 <body>
     <h1>Points tracking application</h1>
-    
-    <div class = "regisertaion">
+    <div class = "registeration">
+        <div> 
             <label for="username">Name:</label>
             <input type="text" id="username" placeholder="Enter a new name" size="20" maxlength="20" required>
-        <button class="button-6" role="button" id = "register">Register</button>
-        <label id = "successMessage"></label>
+        </div>
+            <button class="button-6" role="button" id = "register">Register</button>
+        <div>
+            <label id = "successMessage"></label>
+        </div>
     </div>
     
-    <div class = "Drop-Down">
-        <label for="dropdown">Select an option:</label>
-        <select id="dropdown" name="dropdown"></select>
-    </div>
-    
+
     <div class="number-entry-widget">
-        <button id="decrement">-</button>
-        <input type="number" id="number" min="0" max="10" value="0">
-        <button id="increment">+</button>
+        <div class = "Drop-Down">
+            <label for="dropdown">Select an option:</label>
+            <select id="dropdown" name="dropdown"></select>
+        </div>
+        
+        <div>
+            <button id="decrement">-</button>
+            <input type="number" id="number" min="0" max="10" value="0">
+            <button id="increment">+</button>
+        </div>
+        <button class="button-6" role="button" id = "sendNumber">Enter</button>
     </div>
-    
-    <button class="button-6" role="button" id = "sendNumber">Enter</button>
     <!-- Canvas for the bar graph -->
     <div class = "chart">
-        <canvas id="myChart" width="50" height="300"></canvas>
+        <div>
+            <label for="time-range-select">Select Range:</label>
+            <select id="time-range-select">
+                <option value="week">week</option>
+                <option value="month">month</option>
+                <option value="all time">All time</option>
+            </select>
+        </div>
+        <div>
+            <canvas id="myChart" width="500" height="300"></canvas>
+        </div>
         
     </div>
 </body>

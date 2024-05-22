@@ -24,6 +24,12 @@ def register():
 def get_all_person_names():
     return jsonify(person_manager.GetPersonNames())
 
+@app.route('/api/get_person_points_in_rangetime',methods= ['POST'])
+def get_all_person_points_in_rangetime():
+    data:Any = request.json
+    range_ = str(data.get('range'))
+    print(f"range: {range_}")
+    return jsonify(person_manager.GetAllPersonPointsRange(range_))
 
 @app.route('/api/set_points',methods= ['POST'])
 def set_points():

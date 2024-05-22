@@ -23,3 +23,10 @@
 
 # Implement the visualization 
   - use the time stamps to filter by last week, last month, all time
+
+# Improve the style
+  - Get a pallet
+  - Add background colors, fonts
+  - Use rounded edges for the divs
+  - Add padding between each div
+  - make it narrow so it is more compatible with phones

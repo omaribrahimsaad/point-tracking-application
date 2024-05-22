@@ -45,10 +45,10 @@ async function registerUser(name) {
     
 }
 
-function SendPointsToBackend(name_value,points_value)
+async function SendPointsToBackend(name_value,points_value)
 {
     // Send the number to the backend using an AJAX request
-     promise = fetch('/api/set_points', {
+    const response = await fetch('/api/set_points', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -57,15 +57,15 @@ function SendPointsToBackend(name_value,points_value)
             name: name_value,
             points: points_value }),
     });
-      promise = promise.then(response => response.json());
-
-       promise = promise.then(anything => {
-        // Display the response from the backend
-        console.log(anything);}
-           );
+      await response.json();
+      
 }
 
+
+
 document.addEventListener('DOMContentLoaded', function() {
+    const timeRangeSelect = document.getElementById('time-range-select');
+    
 
     LoadAllOptions()
     /////////////////////////////////////////////////////////
@@ -95,13 +95,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const points_entered = parseInt(numberInput.value);
         const name_entered = dropdown.value;
         
-        SendPointsToBackend(name_entered,points_entered);
-        
+        (async function(){
+        await SendPointsToBackend(name_entered,points_entered);
+            console.log("Points sent to backend");
+         updateChart();
+        })()
         
     });
 
     ////////////////////////////////////////////////////////////////
-    /////////////////////////Drop Down//////////////////////////////
+    /////////////////////////Registeration//////////////////////////////
     const registerBtn = document.getElementById('register');
     const registerNameInput = document.getElementById('username');
     const successMessage = document.getElementById('successMessage');
@@ -118,40 +121,72 @@ document.addEventListener('DOMContentLoaded', function() {
         registerNameInput.value = '';
     });
     
-    // Data for the bar graph
-    const data = {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-        datasets: [{
-            label: 'Sales',
-            backgroundColor: 'rgb(54, 162, 235)',
-            borderColor: 'rgb(54, 162, 235)',
-            data: [10, 20, 30, 40, 50, 60, 70], // Sample data for the bars
-        }]
-    };
 
-    // Configuration options
-    const options = {
-        responsive: true,
-        maintainAspectRatio: false,
-            indexAxis: 'y',
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-    };
-
-    // Get the canvas element
-    const ctx = document.getElementById('myChart').getContext('2d');
-
-    // Create the bar graph
-    const myChart = new Chart(ctx, {
+    const ctx = document.getElementById('myChart');
+    const bar_chart = new Chart(ctx, {
         type: 'bar',
-        data: data,
-        options: options
-    });
+        data: {
+          labels: ["default"],
+          datasets: [{
+            label: 'Points Summary',
+            data: [2],
+          }]
+        },
+        options: {
+            responsive: false,
+            indexAxis: 'y',
+            scales: {
+                y: {
+                  beginAtZero: true
 
-    
+                }
+          }
+        }
+      });
+
+    Names = []
+    Points = []
+    async function updateChart()
+    {
+          try {
+              const response = await fetch('/api/get_person_points_in_rangetime', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({ range: timeRangeSelect.value }),
+              });
+              const dataset = await response.json();
+              console.log(dataset);
+
+              dataset.forEach(element => {
+                  Names.push(element[0]);
+                  Points.push(element[1]);
+              })
+              bar_chart.data.labels = Names;
+              bar_chart.data.datasets[0].data = Points;
+            console.log(Names);
+              console.log(Points);
+              console.log(timeRangeSelect.value)
+              bar_chart.update();
+              Names = [];
+              Points = [];
+          } catch (error) {
+              console.error('Error during plotting:', error);
+          }
+     }
+
+    updateChart();
+    timeRangeSelect.addEventListener('change', function()
+         {
+            updateChart();
+             
+             
+         } );
+    timeRangeSelect.value = 'week';
+
 });
+
+
 
 
