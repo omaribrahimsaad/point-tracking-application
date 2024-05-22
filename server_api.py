@@ -1,6 +1,5 @@
-import person
 
-
-def AddNewPerson() -> void: 
-  return person.Person
+def AddNewPerson(name:str): 
+  # call add new person funtion from person manager
+  pass
   

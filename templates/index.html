@@ -6,6 +6,8 @@
     <title>About - My Flask App</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 <body>
     <h1>Points tracking application</h1>
@@ -28,5 +30,11 @@
         <button id="increment">+</button>
     </div>
     <button id = "sendNumber">Enter</button>
+    <p id = "response"></p>
+    <!-- Canvas for the bar graph -->
+    <div>
+        <canvas id="myChart" width="100" height="500"></canvas>
+        
+    </div>
 </body>
 </html>
